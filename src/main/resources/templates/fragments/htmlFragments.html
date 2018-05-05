@@ -79,7 +79,6 @@
 </th:block>
 
 <th:block th:fragment="header">
-
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -97,7 +96,6 @@
 <th:block th:fragment="comments">
     <div class="modal-footer modal-comments">
         <div class="comments">
-
             <div class="panel panel-default">
                 <div class="panel-heading">
             <span><h4>Комментарии:</h4></span>
@@ -110,15 +108,6 @@
                         th:onclick="'sendComment(' + ${client.id} + ', \'test_message\')'">Cохранить
                 </button>
             </div>
-            </div>
-
-            <span><h4>Комментарии:</h4></span>
-            <div class="form-group">
-                <textarea class="form-control textcomplete" th:id="'new-text-for-client' + ${client.id}"
-                          placeholder="Напишите комментарий"></textarea>
-                <button class="btn btn-md btn-success comment-button"
-                        th:onclick="'sendComment(' + ${client.id} + ', \'test_message\')'">Cохранить
-                </button>
             </div>
             <ul class="list-group" th:id="'client-'+${client.id}+'comments'">
                 <li class="list-group-item comment-item" th:each="comment : ${client.comments}"
@@ -217,26 +206,9 @@
                         <button type="button" th:id = "'sendTemplateBtn-' + ${template.id} + '-' + ${client.id}" class="btn btn-primary" th:onclick="'sendTempate(' + ${client.id} + ',\'' +  ${template.id} + '\')'">Да</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
                     </div>
-
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Подтвердите свое действие</h5>
-                </div>
-                <div class="modal-body">
-                    <h6>Отправить сообщение пользователю?</h6>
-                </div>
-                <div class="modal-footer">
-                    <span th:id = "'sendTemplateStatus-' + ${template.id}+ '-' + ${client.id}"></span>
-                    <button type="button" th:id = "'sendTemplateBtn-' + ${template.id} + '-' + ${client.id}" class="btn btn-primary" th:onclick="'sendTempate(' + ${client.id} + ',\'' +  ${template.id} + '\')'">Да</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-
                 </div>
             </div>
         </div>
-    </div>
-    </div>
-    </div>
     </div>
 </th:block>
 

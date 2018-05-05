@@ -25,8 +25,7 @@ function sendComment(id) {
                     '<div class="form-answer">' +
                         '<div class="form-group">' +
                             '<textarea class="form-control textcomplete" id="new-answer-for-comment' + comment.id + '" placeholder="Напишите ответ"></textarea>' +
-
-                            '<button class="btn btn-md btn-success comment-button" onclick="sendAnswer(' + comment.id + ', \'test_message\')"> сохранить </button>' +
+                            '<button class="btn btn-sm btn-success comment-button" onclick="sendAnswer(' + comment.id + ', \'test_message\')"> сохранить </button>' +
                         '</div>' +
                     '</div>' +
                     '<div class="form-edit">' +

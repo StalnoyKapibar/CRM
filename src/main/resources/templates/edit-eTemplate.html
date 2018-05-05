@@ -11,19 +11,9 @@
 <body>
     <div style="margin: 4%">
         <div th:replace="fragments/htmlFragments::top-navigation-panel"></div>
-
-        <div class="container head-padding">
-            <label style="font-size: 20px" for="socNetworkChoose">Редактирование шаблона </label>
-            <select style="font-size: 20px" class="form-inline" id="socNetworkChoose" th:onchange="'switchTemplate()'">
-                <option value="e-mail">email</option>
-                <option value="vk">vk</option>
-            </select>
-            <fieldset id="field">
-
         <div class="container">
             <h2>Редактирование шаблона сообщения</h2>
             <fieldset>
-
                 <label for="body"></label>
                 <textarea id="body" required="required" th:text="${template.templateText}">
                             &lt;p&gt;
@@ -41,17 +31,6 @@
                 </div>
                 <p><span id = "message"></span></p>
             </fieldset>
-
-            <div class="col-md-12 content" >
-                <div class="row">
-            <textarea  th:id="textTemplateArea" th:text="${template.otherText}" rows="16"></textarea>
-            </div>
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary" id="saveTemplate1" th:onclick="'saveTemplate(\''+ ${template.id} +'\')'">Сохранить</button>
-                    <a href="/client" class="btn btn-primary" id="backToMain">Назад</a>
-                </div>
-            </div>
-
         </div>
     </div>
     <div class="modal fade" id="infoModal"  role="dialog"  aria-hidden="true">

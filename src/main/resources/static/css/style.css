@@ -57,7 +57,6 @@ body {
 .portlet-content {
 	padding: 0.4em;
 	word-wrap:break-word;
-
 }
 .portlet-placeholder {
 	border: 1px dotted black;
@@ -436,7 +435,7 @@ button[id*=client-info] {
 }
 
 
-button[name="editStatusBtn"] {
+[name="editStatusBtn"] {
 	border: 2px solid coral;
 	border-radius: 20px;
 	background: #f1f1f1;
@@ -504,7 +503,6 @@ a[id^="sendTemplateBtn"] {
 	width: -webkit-fill-available;  /*так и должно быть*/
 	width: fill-available; /*тут тоже*/
 }
-
 
 a[id^="eTemplateBtn"] {
 	width: 100%;
