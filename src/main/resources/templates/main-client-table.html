@@ -82,6 +82,7 @@
                     </div>
                 </div>
                 <div class="btn-group">
+                    <!-- EMAIL SEND/EDIT TEMPLATE BTN -->
                     <button name= "emailTmplList" type="button" class="glyphicon glyphicon-envelope" data-toggle="dropdown">
                     </button>
                     <ul class="dropdown-menu" th:if="${emailTmpl.size()!=0}">
@@ -260,7 +261,7 @@
                     <a id="close-panel-icon" class="glyphicon glyphicon-remove"></a>
                     <h2>Меню</h2>
                 </div>
-                <div id="client_filter_group" th:if="${isAdmin}">
+                <div id="client_filter_group" sec:authorize="hasAnyAuthority('ADMIN')">
                     <div class="panel-heading" id="client-filter-heading">
                         <a id="client_filter_label" data-toggle="collapse" data-parent="#accordion"
                            href="#collapseFilter">Фильтр клиентов</a>
@@ -274,7 +275,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="user_group" th:if="${isAdmin}">
+                <div id="user_group" sec:authorize="hasAnyAuthority('ADMIN')">
                     <div class="panel-heading" id="user_group-heading">
                         <a id="user_group_label" data-toggle="collapse" data-parent="#accordion"
                            href="#collapseUser">Список сотрудников</a>

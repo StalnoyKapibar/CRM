@@ -434,8 +434,7 @@ button[id*=client-info] {
 	float: right;
 }
 
-
-[name="editStatusBtn"] {
+button[name="editStatusBtn"] {
 	border: 2px solid coral;
 	border-radius: 20px;
 	background: #f1f1f1;
@@ -511,7 +510,29 @@ a[id^="eTemplateBtn"] {
 	width: fill-available; /*тут тоже*/
 }
 
+input[id="search-clients"] {
+    width:50%;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+input[id="search-clients"]:focus {
+    width:130%;
+}
+div.search-place{
+    padding:10px 15px 15px 15px;
+}
+
+button.option{
+    margin:0;
+    display:none;
+}
+
+
 span[id^="postponeStatus"] {
 	color: red;
 	float: right;
+}
+
+a.notification-header-btn{
+    cursor:pointer;
 }

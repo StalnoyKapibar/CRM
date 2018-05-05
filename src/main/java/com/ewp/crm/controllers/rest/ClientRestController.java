@@ -29,11 +29,13 @@ public class ClientRestController {
 
 	private final ClientService clientService;
 	private final SocialNetworkTypeService socialNetworkTypeService;
+	private final UserService userService;
 
 	@Autowired
-	public ClientRestController(ClientService clientService, SocialNetworkTypeService socialNetworkTypeService) {
+	public ClientRestController(ClientService clientService, SocialNetworkTypeService socialNetworkTypeService, UserService userService) {
 		this.clientService = clientService;
 		this.socialNetworkTypeService = socialNetworkTypeService;
+		this.userService = userService;
 	}
 
 	@RequestMapping(value = "/rest/client", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -57,6 +59,23 @@ public class ClientRestController {
 		client.setOwnerUser(user);
 		clientService.updateClient(client);
 		logger.info("User {} has assigned client with id {}", user.getEmail(), clientId);
+		return ResponseEntity.ok(client.getOwnerUser());
+	}
+
+	//TODO hasAnyAuthority('ADMIN')
+	@RequestMapping(value = "/rest/client/assign/user", method = RequestMethod.POST)
+	public ResponseEntity<User> assignUser(@RequestParam(name = "clientId") Long clientId,
+	                                       @RequestParam(name = "userForAssign") Long userId) {
+		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User assignUser = userService.get(userId);
+		Client client = clientService.getClientByID(clientId);
+		if (client.getOwnerUser() != null && client.getOwnerUser().equals(assignUser)) {
+			logger.info("User {} tried to assign a client with id {}, but client have same owner {}", principal.getEmail(), clientId, assignUser.getEmail());
+			return ResponseEntity.ok(client.getOwnerUser());
+		}
+		client.setOwnerUser(assignUser);
+		clientService.updateClient(client);
+		logger.info("User {} has assigned client with id {} to user {}", principal.getEmail(), clientId, assignUser.getEmail());
 		return ResponseEntity.ok(client.getOwnerUser());
 	}
 
@@ -88,6 +107,7 @@ public class ClientRestController {
 		client.setStatus(currentClient.getStatus());
 		client.setDateOfRegistration(currentClient.getDateOfRegistration());
 		client.addHistory(new ClientHistory(currentAdmin.getFullName() + " изменил профиль клиента"));
+		client.setSmsInfo(currentClient.getSmsInfo());
 		clientService.updateClient(client);
 		logger.info("{} has updated client: id {}, email {}", currentAdmin.getFullName(), client.getId(), client.getEmail());
 		return ResponseEntity.ok(HttpStatus.OK);
@@ -236,20 +256,6 @@ public class ClientRestController {
 			return ResponseEntity.ok(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("Произошла ошибка");
-		}
-	}
-
-	@RequestMapping(value = "rest/client/addDescription", method = RequestMethod.POST)
-	public ResponseEntity<String> addComment(@RequestParam(name = "clientId") Long clientId,
-	                                         @RequestParam(name = "clientDescription") String clientDescription) {
-		User userFromSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (userFromSession != null) {
-			Client client = clientService.getClientByID(clientId);
-			client.setClientDescriptionComment(clientDescription);
-			clientService.addClient(client);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return  new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 }
