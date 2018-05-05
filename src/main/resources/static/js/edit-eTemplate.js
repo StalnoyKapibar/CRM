@@ -1,3 +1,69 @@
+
+
+// function getSelectedValue (clientId , templateId) {
+//     var selected = $('#socNetworkChoose').val();
+//     var url;
+//     if (selected === 'email') {
+//         url = 'rest/getTemplateEmail'
+//     } else if (selected === 'vk') {
+//         url = 'rest/getTemplateVK'
+//     }
+//      var textAreaField = $('#body');
+//
+//    var formData = {
+//        clientId: clientId,
+//        templateId: templateId
+//    };
+//     $.ajax({
+//         type: 'POST',
+//         url: url,
+//         data: formData,
+//         success: function () {
+//             textAreaField.before("<textarea " + " id='body'" + " required='required'" + " th:text='${template.templateText}' </textarea>");
+//         }
+// });
+
+function switchTemplate() {
+    var selected = $('#socNetworkChoose').val();
+    if(selected === 'email') {
+        $('#field').show();
+        $('#tAr').hide();
+    } else if(selected === 'vk'){
+        $('#field').hide();
+        $('#tAr').show();
+    }
+    console.log(selected);
+}
+
+function saveTemplateOther(templateId) {
+    let url = '/admin/editEmailTemplate';
+
+    let wrap = {
+        templateId: templateId,
+        templateText:
+    };
+    var current = document.getElementById("message");
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: wrap,
+        beforeSend: function(){
+            current.style.color = "darkorange";
+            current.textContent = "Загрузка...";
+
+        },
+        success: function (result) {
+            current.style.color = "limegreen";
+            current.textContent = "Сохранено";
+        },
+        error: function (e) {
+            setErrorMessage(e.responseText);
+        }
+    });
+}
+
+
+
 var current;
 $(document).ready(function () {
     current = document.getElementById("message");
