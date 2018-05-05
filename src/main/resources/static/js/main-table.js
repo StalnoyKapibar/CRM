@@ -6,7 +6,7 @@ $(function () {
         var id = $(this).data('id');
         var text =  $('#info-client'+ id).text();
         var testModal = $('#TestModal');
-        testModal.find('#descriptionTextArea').val(text);
+        testModal.find('textarea').val(text);
         testModal.find('button').remove();
         testModal.find('.modal-footer').append("<button type='button' class='btn btn-success btn-sm' onclick='saveDescription(" + id + ")'>Сохранить</button>");
         testModal.modal('show');
