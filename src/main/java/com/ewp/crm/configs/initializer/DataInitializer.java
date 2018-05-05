@@ -96,6 +96,8 @@ public class DataInitializer {
 		EmailTemplate emailTemplate3 = new EmailTemplate("Не дозвонился", templateText3, vkText3);
 		EmailTemplate emailTemplate2 = new EmailTemplate("Оплата за обучение", templateText2, vkText2);
 		EmailTemplate emailTemplate1 = new EmailTemplate("После разговора", templateText1, vkText1);
+
+
 		emailTemplateService.add(emailTemplate1);
 		emailTemplateService.add(emailTemplate2);
 		emailTemplateService.add(emailTemplate3);
@@ -118,7 +120,8 @@ public class DataInitializer {
 				new SocialNetwork("https://fb", socialNetworkTypeService.getByTypeName("facebook"))));
 		client3.setSocialNetworks(Arrays.asList(new SocialNetwork("https://vk.com/id", socialNetworkTypeService.getByTypeName("vk")),
 				new SocialNetwork("https://fb", socialNetworkTypeService.getByTypeName("facebook"))));
-		client4.setSocialNetworks(Arrays.asList(
+
+		client4.setSocialNetworks(Arrays.asList(new SocialNetwork("https://vk.com/id", socialNetworkTypeService.getByTypeName("vk")),
 				new SocialNetwork("https://fb", socialNetworkTypeService.getByTypeName("facebook"))));
 		client1.setJobs(Arrays.asList(new Job("javaMentor", "developer"), new Job("Microsoft", "Junior developer")));
 		clientService.addClient(client1);

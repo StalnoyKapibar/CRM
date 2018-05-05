@@ -48,8 +48,10 @@ public class Client implements Serializable {
 
 	private String comment;
 
+
 	@Column(name = "client_description_comment")
 	private String clientDescriptionComment;
+
 
 	@Column(name = "postponeDate")
 	private Date postponeDate;
@@ -312,6 +314,7 @@ public class Client implements Serializable {
 	public void setSocialNetworks(List<SocialNetwork> socialNetworks) {
 		this.socialNetworks = socialNetworks;
 	}
+
 
 	public String getClientDescriptionComment() {
 		return clientDescriptionComment;

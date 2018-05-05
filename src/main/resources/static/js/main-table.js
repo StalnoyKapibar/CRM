@@ -1,11 +1,3 @@
-// function openDescriptionModal(id) {
-//     let text =  $('#info-client'+ id).text();
-//     let testModal = $('#TestModal');
-//     testModal.find('textarea').val(text);
-//     testModal.find('button').remove();
-//     testModal.find('.modal-footer').append("<button type='button' class='btn btn-success btn-sm' onclick='saveDescription(" + id + ")'>Сохранить</button>");
-//     testModal.modal('show');
-// }
 
 
 
@@ -42,6 +34,7 @@ function saveDescription(id) {
         }
     });
 }
+
 
 
 $(document).ready(function () {
@@ -245,7 +238,8 @@ function assign(id) {
                 "<button " +
                 "   id='unassign-client" + id +"' " +
                 "   onclick='unassign(" + id +")' " +
-                "   class='btn btn-sm btn-warning'>отказаться от карточки</button>"
+
+                "   class='btn btn-md btn-warning'>отказаться от карточки</button>"
             );
             assignBtn.remove();
             $('#info-client' + id).append(
@@ -280,7 +274,8 @@ function assignUser(id, user) {
                 "<button " +
                 "   id='unassign-client" + id +"' " +
                 "   onclick='unassign(" + id +")' " +
-                "   class='btn btn-sm btn-warning'>отказаться от карточки</button>"
+
+                "   class='btn btn-md btn-warning'>отказаться от карточки</button>"
             );
             assignBtn.remove();
             $('#info-client' + id).append(
