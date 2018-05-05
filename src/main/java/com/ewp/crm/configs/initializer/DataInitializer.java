@@ -120,8 +120,7 @@ public class DataInitializer {
 				new SocialNetwork("https://fb", socialNetworkTypeService.getByTypeName("facebook"))));
 		client3.setSocialNetworks(Arrays.asList(new SocialNetwork("https://vk.com/id", socialNetworkTypeService.getByTypeName("vk")),
 				new SocialNetwork("https://fb", socialNetworkTypeService.getByTypeName("facebook"))));
-
-		client4.setSocialNetworks(Arrays.asList(new SocialNetwork("https://vk.com/id", socialNetworkTypeService.getByTypeName("vk")),
+		client4.setSocialNetworks(Arrays.asList(
 				new SocialNetwork("https://fb", socialNetworkTypeService.getByTypeName("facebook"))));
 		client1.setJobs(Arrays.asList(new Job("javaMentor", "developer"), new Job("Microsoft", "Junior developer")));
 		clientService.addClient(client1);

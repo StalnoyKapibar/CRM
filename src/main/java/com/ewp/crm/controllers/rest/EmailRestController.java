@@ -87,4 +87,5 @@ public class EmailRestController {
 		Path fileLocation = Paths.get(imageConfig.getPathForImages() + file + ".png");
 		return Files.readAllBytes(fileLocation);
 	}
+
 }
