@@ -134,7 +134,7 @@ public class ScheduleTasks {
 					smsInfoService.updateSMSInfo(sms);
 				} else {
 					String forView = determineStatusOfResponse(status);
-					sendNotificationService.sendNotification(forView,sms.getClient(),sms.getUser());
+					sendNotificationService.sendNotification(forView, sms.getClient(), sms.getUser());
 					smsInfoService.deleteSMSInfo(sms.getId());
 				}
 			}
@@ -156,3 +156,4 @@ public class ScheduleTasks {
 		}
 		return info;
 	}
+}
