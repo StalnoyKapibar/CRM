@@ -5,6 +5,7 @@ import com.ewp.crm.exceptions.parse.ParseClientException;
 import com.ewp.crm.exceptions.util.VKAccessTokenException;
 import com.ewp.crm.models.Client;
 import com.ewp.crm.models.SocialNetwork;
+import com.ewp.crm.models.VkMember;
 import com.ewp.crm.service.interfaces.SocialNetworkService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -24,9 +25,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Component
@@ -83,6 +82,36 @@ public class VKUtil {
 		}
 	}
 
+	public Optional<ArrayList<VkMember>> getAllVKMembers(Long groupId, Long offset){
+	    if (groupId==null){
+	        groupId = Long.parseLong(clubId);
+        }
+	    String urlGetMessages = VK_API_METHOD_TEMPLATE + "groups.getMembers" +
+                "?group_id=" + groupId +
+                "&sort=time_asc" +
+                "&offset=" + offset;
+        try {
+	        HttpGet httpGetMessages = new HttpGet(urlGetMessages);
+	        HttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(RequestConfig.custom()
+                    .setCookieSpec(CookieSpecs.STANDARD).build())
+                    .build();
+            HttpResponse httpResponse = httpClient.execute(httpGetMessages);
+            String result = EntityUtils.toString(httpResponse.getEntity());
+            JSONObject json = new JSONObject(result);
+            JSONArray jsonArray = json.getJSONArray("items");
+            ArrayList<VkMember> vkMembers = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++ ){
+                vkMembers.add(new VkMember((Long) jsonArray.get(i), groupId));
+            }
+            return Optional.of(vkMembers);
+        } catch (IOException e) {
+            logger.error("Failed to connect to VK server");
+        } catch (JSONException e) {
+            logger.error("Can not read message from JSON");
+        }
+        return Optional.empty();
+    }
+
 	public Optional<List<String>> getNewMassages() throws VKAccessTokenException {
 		String uriGetMassages = VK_API_METHOD_TEMPLATE + "messages.getHistory" +
 				"?user_id=" + clubId +
@@ -137,7 +166,7 @@ public class VKUtil {
 		return client.getName() + " hasn't vk social network";
 	}
 
-	private String sendMessageById(long id, String msg) {
+	public String sendMessageById(long id, String msg) {
 		String replaceCarriage = msg.replaceAll("(\r\n|\n)", "%0A");
 		String uriMsg = replaceCarriage.replaceAll("\\s", "%20");
 

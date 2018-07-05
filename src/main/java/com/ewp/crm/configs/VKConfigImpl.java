@@ -29,6 +29,8 @@ public class VKConfigImpl implements VKConfig {
 
     private String communityToken;
 
+    private String firstContactMessage;
+
     private static Logger logger = LoggerFactory.getLogger(VKConfigImpl.class);
 
     @Autowired
@@ -40,6 +42,7 @@ public class VKConfigImpl implements VKConfig {
         clubId = env.getProperty("vk.club.id");
         version = env.getProperty("vk.version");
         communityToken = env.getProperty("vk.community.token");
+        firstContactMessage = env.getProperty("vk.message.firstContactMessage");
 
         if (!configIsValid()) {
             logger.error("VK configs have not initialized. Check vk.properties file");
@@ -90,5 +93,9 @@ public class VKConfigImpl implements VKConfig {
 
     public String getCommunityToken() {
         return communityToken;
+    }
+
+    public String getFirstContactMessage() {
+        return firstContactMessage;
     }
 }

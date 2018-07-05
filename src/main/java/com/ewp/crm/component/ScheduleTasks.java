@@ -2,12 +2,10 @@ package com.ewp.crm.component;
 
 import com.ewp.crm.component.util.VKUtil;
 import com.ewp.crm.component.util.interfaces.SMSUtil;
+import com.ewp.crm.configs.inteface.VKConfig;
 import com.ewp.crm.exceptions.parse.ParseClientException;
 import com.ewp.crm.exceptions.util.VKAccessTokenException;
-import com.ewp.crm.models.Client;
-import com.ewp.crm.models.SMSInfo;
-import com.ewp.crm.models.SocialNetwork;
-import com.ewp.crm.models.Status;
+import com.ewp.crm.models.*;
 import com.ewp.crm.service.interfaces.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +14,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Component
 @EnableScheduling
@@ -39,10 +39,16 @@ public class ScheduleTasks {
 
 	private final SendNotificationService sendNotificationService;
 
+	private final VkMemberService vkMemberService;
+
+	private String firstContactMessage;
+
+	private VKConfig vkConfig;
+
 	private static Logger logger = LoggerFactory.getLogger(ScheduleTasks.class);
 
 	@Autowired
-	public ScheduleTasks(VKUtil vkUtil, ClientService clientService, StatusService statusService, SocialNetworkService socialNetworkService, SocialNetworkTypeService socialNetworkTypeService, SMSUtil smsUtil, SMSInfoService smsInfoService, SendNotificationService sendNotificationService) {
+	public ScheduleTasks(VKUtil vkUtil, ClientService clientService, StatusService statusService, SocialNetworkService socialNetworkService, SocialNetworkTypeService socialNetworkTypeService, SMSUtil smsUtil, SMSInfoService smsInfoService, SendNotificationService sendNotificationService, VkMemberService vkMemberService, VKConfig vkConfig) {
 		this.vkUtil = vkUtil;
 		this.clientService = clientService;
 		this.statusService = statusService;
@@ -51,6 +57,8 @@ public class ScheduleTasks {
 		this.smsUtil = smsUtil;
 		this.smsInfoService = smsInfoService;
 		this.sendNotificationService = sendNotificationService;
+		this.vkMemberService = vkMemberService;
+		this.vkConfig = vkConfig;
 	}
 
 	private void addClient(Client newClient) {
@@ -119,6 +127,21 @@ public class ScheduleTasks {
 			client.setPostponeDate(null);
 			clientService.updateClient(client);
 		}
+	}
+
+	//будет отправлять сообщения для новых подписчиков группы.
+	@Scheduled(fixedRate = 60_000)
+	private void findNewMembersAndSendFirstMessage(){
+		//TODO перебор всех групп в цикле
+		ArrayList<VkMember> freshMemberList = vkUtil.getAllVKMembers(null, 0L).get();
+		List<VkMember> lastMemberList = vkMemberService.getAll();
+		for (VkMember vkMember : freshMemberList){
+			if(!lastMemberList.contains(vkMember)){
+				//vkUtil.sendMessageById(vkMember.getVkId(), vkConfig.getFirstContactMessage());
+				vkMemberService.add(vkMember);
+			}
+		}
+
 	}
 
 	//TODO 600_0000 after tests

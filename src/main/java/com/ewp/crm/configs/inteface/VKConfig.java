@@ -15,4 +15,6 @@ public interface VKConfig {
     String getVersion();
 
     String getCommunityToken();
+
+    String getFirstContactMessage();
 }

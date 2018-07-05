@@ -1,5 +1,6 @@
 package com.ewp.crm.configs.initializer;
 
+import com.ewp.crm.component.util.VKUtil;
 import com.ewp.crm.models.*;
 import com.ewp.crm.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 public class DataInitializer {
 
@@ -22,6 +24,12 @@ public class DataInitializer {
 
 	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	private VkMemberService vkMemberService;
+
+	@Autowired
+	private VKUtil vkUtil;
 
 	@Autowired
 	private EmailTemplateService emailTemplateService;
@@ -128,5 +136,8 @@ public class DataInitializer {
 		statusService.add(status1);
 		statusService.add(status2);
 		statusService.add(status3);
+
+		List<VkMember> memberList = vkUtil.getAllVKMembers(null, 0L).get();
+		vkMemberService.addAllMembers(memberList);
 	}
 }
